@@ -1,0 +1,386 @@
+USE [master]
+GO
+/****** Object:  Database [Perfumer]    Script Date: 05.11.2022 10:29:30 ******/
+CREATE DATABASE [Perfumer]
+ CONTAINMENT = NONE
+ ON  PRIMARY 
+( NAME = N'Perfumer', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\DATA\Perfumer.mdf' , SIZE = 8192KB , MAXSIZE = UNLIMITED, FILEGROWTH = 65536KB )
+ LOG ON 
+( NAME = N'Perfumer_log', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\DATA\Perfumer_log.ldf' , SIZE = 8192KB , MAXSIZE = 2048GB , FILEGROWTH = 65536KB )
+ WITH CATALOG_COLLATION = DATABASE_DEFAULT
+GO
+ALTER DATABASE [Perfumer] SET COMPATIBILITY_LEVEL = 150
+GO
+IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
+begin
+EXEC [Perfumer].[dbo].[sp_fulltext_database] @action = 'enable'
+end
+GO
+ALTER DATABASE [Perfumer] SET ANSI_NULL_DEFAULT OFF 
+GO
+ALTER DATABASE [Perfumer] SET ANSI_NULLS OFF 
+GO
+ALTER DATABASE [Perfumer] SET ANSI_PADDING OFF 
+GO
+ALTER DATABASE [Perfumer] SET ANSI_WARNINGS OFF 
+GO
+ALTER DATABASE [Perfumer] SET ARITHABORT OFF 
+GO
+ALTER DATABASE [Perfumer] SET AUTO_CLOSE OFF 
+GO
+ALTER DATABASE [Perfumer] SET AUTO_SHRINK OFF 
+GO
+ALTER DATABASE [Perfumer] SET AUTO_UPDATE_STATISTICS ON 
+GO
+ALTER DATABASE [Perfumer] SET CURSOR_CLOSE_ON_COMMIT OFF 
+GO
+ALTER DATABASE [Perfumer] SET CURSOR_DEFAULT  GLOBAL 
+GO
+ALTER DATABASE [Perfumer] SET CONCAT_NULL_YIELDS_NULL OFF 
+GO
+ALTER DATABASE [Perfumer] SET NUMERIC_ROUNDABORT OFF 
+GO
+ALTER DATABASE [Perfumer] SET QUOTED_IDENTIFIER OFF 
+GO
+ALTER DATABASE [Perfumer] SET RECURSIVE_TRIGGERS OFF 
+GO
+ALTER DATABASE [Perfumer] SET  DISABLE_BROKER 
+GO
+ALTER DATABASE [Perfumer] SET AUTO_UPDATE_STATISTICS_ASYNC OFF 
+GO
+ALTER DATABASE [Perfumer] SET DATE_CORRELATION_OPTIMIZATION OFF 
+GO
+ALTER DATABASE [Perfumer] SET TRUSTWORTHY OFF 
+GO
+ALTER DATABASE [Perfumer] SET ALLOW_SNAPSHOT_ISOLATION OFF 
+GO
+ALTER DATABASE [Perfumer] SET PARAMETERIZATION SIMPLE 
+GO
+ALTER DATABASE [Perfumer] SET READ_COMMITTED_SNAPSHOT OFF 
+GO
+ALTER DATABASE [Perfumer] SET HONOR_BROKER_PRIORITY OFF 
+GO
+ALTER DATABASE [Perfumer] SET RECOVERY FULL 
+GO
+ALTER DATABASE [Perfumer] SET  MULTI_USER 
+GO
+ALTER DATABASE [Perfumer] SET PAGE_VERIFY CHECKSUM  
+GO
+ALTER DATABASE [Perfumer] SET DB_CHAINING OFF 
+GO
+ALTER DATABASE [Perfumer] SET FILESTREAM( NON_TRANSACTED_ACCESS = OFF ) 
+GO
+ALTER DATABASE [Perfumer] SET TARGET_RECOVERY_TIME = 60 SECONDS 
+GO
+ALTER DATABASE [Perfumer] SET DELAYED_DURABILITY = DISABLED 
+GO
+ALTER DATABASE [Perfumer] SET ACCELERATED_DATABASE_RECOVERY = OFF  
+GO
+EXEC sys.sp_db_vardecimal_storage_format N'Perfumer', N'ON'
+GO
+ALTER DATABASE [Perfumer] SET QUERY_STORE = OFF
+GO
+USE [Perfumer]
+GO
+/****** Object:  Table [dbo].[Orders]    Script Date: 05.11.2022 10:29:30 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Orders](
+	[OrderId] [int] IDENTITY(1,1) NOT NULL,
+	[OrderList] [varchar](200) NULL,
+	[OrderDate] [varchar](100) NULL,
+	[OrderDeliveryDate] [varchar](100) NULL,
+	[OrderPointDeliverytID] [int] NULL,
+	[OrderUserFullName] [varchar](100) NULL,
+	[OrderReceiveCode] [int] NULL,
+	[OrderStatus] [varchar](100) NULL,
+	[OrderUserID] [int] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[OrderId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[PointDelivery]    Script Date: 05.11.2022 10:29:31 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[PointDelivery](
+	[PointDeliverytID] [int] IDENTITY(1,1) NOT NULL,
+	[PointDeliveyAdress] [varchar](200) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[PointDeliverytID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Products]    Script Date: 05.11.2022 10:29:31 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Products](
+	[ProductID] [int] IDENTITY(1,1) NOT NULL,
+	[ProductАrticle] [varchar](100) NULL,
+	[ProductName] [varchar](100) NULL,
+	[ProductUnitChange] [varchar](100) NULL,
+	[ProductCost] [int] NULL,
+	[ProductMaxSale] [int] NULL,
+	[ProductManufacturer] [varchar](100) NULL,
+	[ProductProvider] [varchar](100) NULL,
+	[ProductCategory] [varchar](100) NULL,
+	[ProductSale] [int] NULL,
+	[ProductCount] [int] NULL,
+	[ProductDescription] [varchar](200) NULL,
+	[ProductImage] [varchar](100) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[ProductID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[ProductsOrders]    Script Date: 05.11.2022 10:29:31 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[ProductsOrders](
+	[ProductID] [int] NOT NULL,
+	[OrderId] [int] NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[ProductID] ASC,
+	[OrderId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Users]    Script Date: 05.11.2022 10:29:31 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Users](
+	[UserId] [int] IDENTITY(1,1) NOT NULL,
+	[UserRole] [varchar](100) NULL,
+	[UserFullName] [varchar](100) NULL,
+	[UserLogin] [varchar](100) NULL,
+	[UserPassword] [varchar](100) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[UserId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+SET IDENTITY_INSERT [dbo].[Orders] ON 
+GO
+INSERT [dbo].[Orders] ([OrderId], [OrderList], [OrderDate], [OrderDeliveryDate], [OrderPointDeliverytID], [OrderUserFullName], [OrderReceiveCode], [OrderStatus], [OrderUserID]) VALUES (1, N'А112Т4, 2, F893T5, 2', N'04.05.2022', N'10.05.2022', 24, N'Новиков Матвей Маркович', 201, N'Новый ', 1)
+GO
+INSERT [dbo].[Orders] ([OrderId], [OrderList], [OrderDate], [OrderDeliveryDate], [OrderPointDeliverytID], [OrderUserFullName], [OrderReceiveCode], [OrderStatus], [OrderUserID]) VALUES (2, N'E530Y6, 1, F346G5, 2', N'05.05.2022', N'11.05.2022', 25, N'', 202, N'Новый ', 2)
+GO
+INSERT [dbo].[Orders] ([OrderId], [OrderList], [OrderDate], [OrderDeliveryDate], [OrderPointDeliverytID], [OrderUserFullName], [OrderReceiveCode], [OrderStatus], [OrderUserID]) VALUES (3, N'J432E4, 1, D344Y7, 2', N'06.05.2022', N'12.05.2022', 26, N'Соловьев Пётр Никитич', 203, N'Новый ', 3)
+GO
+INSERT [dbo].[Orders] ([OrderId], [OrderList], [OrderDate], [OrderDeliveryDate], [OrderPointDeliverytID], [OrderUserFullName], [OrderReceiveCode], [OrderStatus], [OrderUserID]) VALUES (4, N'E245R5, 1, D378D3, 2', N'07.05.2022', N'13.05.2022', 27, N'', 204, N'Новый ', 4)
+GO
+INSERT [dbo].[Orders] ([OrderId], [OrderList], [OrderDate], [OrderDeliveryDate], [OrderPointDeliverytID], [OrderUserFullName], [OrderReceiveCode], [OrderStatus], [OrderUserID]) VALUES (5, N'H732R5, 3, R464G6, 2', N'08.05.2022', N'14.05.2022', 28, N'Васильева Софья Глебовна', 205, N'Новый ', 5)
+GO
+INSERT [dbo].[Orders] ([OrderId], [OrderList], [OrderDate], [OrderDeliveryDate], [OrderPointDeliverytID], [OrderUserFullName], [OrderReceiveCode], [OrderStatus], [OrderUserID]) VALUES (6, N'K535G6, 3, E573G6, 3', N'09.05.2022', N'15.05.2022', 29, N'', 206, N'Новый ', 1)
+GO
+INSERT [dbo].[Orders] ([OrderId], [OrderList], [OrderDate], [OrderDeliveryDate], [OrderPointDeliverytID], [OrderUserFullName], [OrderReceiveCode], [OrderStatus], [OrderUserID]) VALUES (7, N'G532R5, 5, F344S4, 6', N'10.05.2022', N'16.05.2022', 30, N'', 207, N'Новый ', 2)
+GO
+INSERT [dbo].[Orders] ([OrderId], [OrderList], [OrderDate], [OrderDeliveryDate], [OrderPointDeliverytID], [OrderUserFullName], [OrderReceiveCode], [OrderStatus], [OrderUserID]) VALUES (8, N'D526R4, 5, S753T5, 4', N'11.05.2022', N'17.05.2022', 31, N'', 208, N'Новый ', 3)
+GO
+INSERT [dbo].[Orders] ([OrderId], [OrderList], [OrderDate], [OrderDeliveryDate], [OrderPointDeliverytID], [OrderUserFullName], [OrderReceiveCode], [OrderStatus], [OrderUserID]) VALUES (9, N'V472S3, 3, A436H7, 3', N'12.05.2022', N'18.05.2022', 32, N'Львов Роман Павлович', 209, N'Новый ', 4)
+GO
+INSERT [dbo].[Orders] ([OrderId], [OrderList], [OrderDate], [OrderDeliveryDate], [OrderPointDeliverytID], [OrderUserFullName], [OrderReceiveCode], [OrderStatus], [OrderUserID]) VALUES (10, N'O875F6, 4, E479G6, 1', N'13.05.2022', N'19.05.2022', 33, N'', 210, N'Завершен', 5)
+GO
+SET IDENTITY_INSERT [dbo].[Orders] OFF
+GO
+SET IDENTITY_INSERT [dbo].[PointDelivery] ON 
+GO
+INSERT [dbo].[PointDelivery] ([PointDeliverytID], [PointDeliveyAdress]) VALUES (1, N'344288, г. Ангарск, ул. Чехова, 1')
+GO
+INSERT [dbo].[PointDelivery] ([PointDeliverytID], [PointDeliveyAdress]) VALUES (2, N'614164, г.Ангарск,  ул. Степная, 30')
+GO
+INSERT [dbo].[PointDelivery] ([PointDeliverytID], [PointDeliveyAdress]) VALUES (3, N'394242, г. Ангарск, ул. Коммунистическая, 43')
+GO
+INSERT [dbo].[PointDelivery] ([PointDeliverytID], [PointDeliveyAdress]) VALUES (4, N'660540, г. Ангарск, ул. Солнечная, 25')
+GO
+INSERT [dbo].[PointDelivery] ([PointDeliverytID], [PointDeliveyAdress]) VALUES (5, N'125837, г. Ангарск, ул. Шоссейная, 40')
+GO
+INSERT [dbo].[PointDelivery] ([PointDeliverytID], [PointDeliveyAdress]) VALUES (6, N'125703, г. Ангарск, ул. Партизанская, 49')
+GO
+INSERT [dbo].[PointDelivery] ([PointDeliverytID], [PointDeliveyAdress]) VALUES (7, N'625283, г. Ангарск, ул. Победы, 46')
+GO
+INSERT [dbo].[PointDelivery] ([PointDeliverytID], [PointDeliveyAdress]) VALUES (8, N'614611, г. Ангарск, ул. Молодежная, 50')
+GO
+INSERT [dbo].[PointDelivery] ([PointDeliverytID], [PointDeliveyAdress]) VALUES (9, N'454311, г.Ангарск, ул. Новая, 19')
+GO
+INSERT [dbo].[PointDelivery] ([PointDeliverytID], [PointDeliveyAdress]) VALUES (10, N'660007, г.Ангарск, ул. Октябрьская, 19')
+GO
+INSERT [dbo].[PointDelivery] ([PointDeliverytID], [PointDeliveyAdress]) VALUES (11, N'603036, г. Ангарск, ул. Садовая, 4')
+GO
+INSERT [dbo].[PointDelivery] ([PointDeliverytID], [PointDeliveyAdress]) VALUES (12, N'450983, г.Ангарск, ул. Комсомольская, 26')
+GO
+INSERT [dbo].[PointDelivery] ([PointDeliverytID], [PointDeliveyAdress]) VALUES (13, N'394782, г. Ангарск, ул. Чехова, 3')
+GO
+INSERT [dbo].[PointDelivery] ([PointDeliverytID], [PointDeliveyAdress]) VALUES (14, N'603002, г. Ангарск, ул. Дзержинского, 28')
+GO
+INSERT [dbo].[PointDelivery] ([PointDeliverytID], [PointDeliveyAdress]) VALUES (15, N'450558, г. Ангарск, ул. Набережная, 30')
+GO
+INSERT [dbo].[PointDelivery] ([PointDeliverytID], [PointDeliveyAdress]) VALUES (16, N'394060, г.Ангарск, ул. Фрунзе, 43')
+GO
+INSERT [dbo].[PointDelivery] ([PointDeliverytID], [PointDeliveyAdress]) VALUES (17, N'410661, г. Ангарск, ул. Школьная, 50')
+GO
+INSERT [dbo].[PointDelivery] ([PointDeliverytID], [PointDeliveyAdress]) VALUES (18, N'625590, г. Ангарск, ул. Коммунистическая, 20')
+GO
+INSERT [dbo].[PointDelivery] ([PointDeliverytID], [PointDeliveyAdress]) VALUES (19, N'625683, г. Ангарск, ул. 8 Марта')
+GO
+INSERT [dbo].[PointDelivery] ([PointDeliverytID], [PointDeliveyAdress]) VALUES (20, N'400562, г. Ангарск, ул. Зеленая, 32')
+GO
+INSERT [dbo].[PointDelivery] ([PointDeliverytID], [PointDeliveyAdress]) VALUES (21, N'614510, г. Ангарск, ул. Маяковского, 47')
+GO
+INSERT [dbo].[PointDelivery] ([PointDeliverytID], [PointDeliveyAdress]) VALUES (22, N'410542, г. Ангарск, ул. Светлая, 46')
+GO
+INSERT [dbo].[PointDelivery] ([PointDeliverytID], [PointDeliveyAdress]) VALUES (23, N'620839, г. Ангарск, ул. Цветочная, 8')
+GO
+INSERT [dbo].[PointDelivery] ([PointDeliverytID], [PointDeliveyAdress]) VALUES (24, N'443890, г. Ангарск, ул. Коммунистическая, 1')
+GO
+INSERT [dbo].[PointDelivery] ([PointDeliverytID], [PointDeliveyAdress]) VALUES (25, N'603379, г. Ангарск, ул. Спортивная, 46')
+GO
+INSERT [dbo].[PointDelivery] ([PointDeliverytID], [PointDeliveyAdress]) VALUES (26, N'603721, г. Ангарск, ул. Гоголя, 41')
+GO
+INSERT [dbo].[PointDelivery] ([PointDeliverytID], [PointDeliveyAdress]) VALUES (27, N'410172, г. Ангарск, ул. Северная, 13')
+GO
+INSERT [dbo].[PointDelivery] ([PointDeliverytID], [PointDeliveyAdress]) VALUES (28, N'420151, г. Ангарск, ул. Вишневая, 32')
+GO
+INSERT [dbo].[PointDelivery] ([PointDeliverytID], [PointDeliveyAdress]) VALUES (29, N'125061, г. Ангарск, ул. Подгорная, 8')
+GO
+INSERT [dbo].[PointDelivery] ([PointDeliverytID], [PointDeliveyAdress]) VALUES (30, N'630370, г. Ангарск, ул. Шоссейная, 24')
+GO
+INSERT [dbo].[PointDelivery] ([PointDeliverytID], [PointDeliveyAdress]) VALUES (31, N'614753, г. Ангарск, ул. Полевая, 35')
+GO
+INSERT [dbo].[PointDelivery] ([PointDeliverytID], [PointDeliveyAdress]) VALUES (32, N'426030, г. Ангарск, ул. Маяковского, 44')
+GO
+INSERT [dbo].[PointDelivery] ([PointDeliverytID], [PointDeliveyAdress]) VALUES (33, N'450375, г. Ангарск ул. Клубная, 44')
+GO
+INSERT [dbo].[PointDelivery] ([PointDeliverytID], [PointDeliveyAdress]) VALUES (34, N'625560, г. Ангарск, ул. Некрасова, 12')
+GO
+INSERT [dbo].[PointDelivery] ([PointDeliverytID], [PointDeliveyAdress]) VALUES (35, N'630201, г. Ангарск, ул. Комсомольская, 17')
+GO
+INSERT [dbo].[PointDelivery] ([PointDeliverytID], [PointDeliveyAdress]) VALUES (36, N'190949, г. Ангарск, ул. Мичурина, 26')
+GO
+SET IDENTITY_INSERT [dbo].[PointDelivery] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Products] ON 
+GO
+INSERT [dbo].[Products] ([ProductID], [ProductАrticle], [ProductName], [ProductUnitChange], [ProductCost], [ProductMaxSale], [ProductManufacturer], [ProductProvider], [ProductCategory], [ProductSale], [ProductCount], [ProductDescription], [ProductImage]) VALUES (1, N'А112Т4', N'Одеколон', N'шт.', 660, 30, N'Dragon', N'Летуаль', N'Мужской парфюм', 5, 6, N'Одеколон Dragon Parfums Dragon Noir, 100 мл', N'А112Т4.jpg')
+GO
+INSERT [dbo].[Products] ([ProductID], [ProductАrticle], [ProductName], [ProductUnitChange], [ProductCost], [ProductMaxSale], [ProductManufacturer], [ProductProvider], [ProductCategory], [ProductSale], [ProductCount], [ProductDescription], [ProductImage]) VALUES (2, N'F893T5', N'Туалетная вода', N'шт.', 327, 15, N'Paris Line', N'Рив Гош', N'Женский парфюм', 2, 14, N'Туалетная вода Paris Line Parfums Cosa Nostra Platinum, 100 мл', N'F893T5.jpg')
+GO
+INSERT [dbo].[Products] ([ProductID], [ProductАrticle], [ProductName], [ProductUnitChange], [ProductCost], [ProductMaxSale], [ProductManufacturer], [ProductProvider], [ProductCategory], [ProductSale], [ProductCount], [ProductDescription], [ProductImage]) VALUES (3, N'G832G6', N'Туалетная вода', N'шт.', 368, 10, N'Paris Line', N'Рив Гош', N'Женский парфюм', 4, 7, N'Туалетная вода Paris Line Parfums Vodka Extreme, 100 мл', N'G832G6.jpg')
+GO
+INSERT [dbo].[Products] ([ProductID], [ProductАrticle], [ProductName], [ProductUnitChange], [ProductCost], [ProductMaxSale], [ProductManufacturer], [ProductProvider], [ProductCategory], [ProductSale], [ProductCount], [ProductDescription], [ProductImage]) VALUES (4, N'E530Y6', N'Парфюмерная вода', N'шт.', 519, 15, N'Parfums Constantine', N'Летуаль', N'Женский парфюм', 3, 9, N'Парфюмерная вода Parfums Constantine Mademoiselle 5, 50 мл', N'E530Y6.jpg')
+GO
+INSERT [dbo].[Products] ([ProductID], [ProductАrticle], [ProductName], [ProductUnitChange], [ProductCost], [ProductMaxSale], [ProductManufacturer], [ProductProvider], [ProductCategory], [ProductSale], [ProductCount], [ProductDescription], [ProductImage]) VALUES (5, N'F346G5', N'Туалетная вода', N'шт.', 450, 5, N'Today Parfum', N'Рив Гош', N'Женский парфюм', 3, 18, N'Туалетная вода Today Parfum G-Club Egoist, 100 мл', N'F346G5.jpg')
+GO
+INSERT [dbo].[Products] ([ProductID], [ProductАrticle], [ProductName], [ProductUnitChange], [ProductCost], [ProductMaxSale], [ProductManufacturer], [ProductProvider], [ProductCategory], [ProductSale], [ProductCount], [ProductDescription], [ProductImage]) VALUES (6, N'J432E4', N'Туалетная вода', N'шт.', 341, 5, N'Paris Line', N'Рив Гош', N'Женский парфюм', 2, 4, N'Туалетная вода Paris Line Parfums Dollar, 100 мл', N'J432E4.jpg')
+GO
+INSERT [dbo].[Products] ([ProductID], [ProductАrticle], [ProductName], [ProductUnitChange], [ProductCost], [ProductMaxSale], [ProductManufacturer], [ProductProvider], [ProductCategory], [ProductSale], [ProductCount], [ProductDescription], [ProductImage]) VALUES (7, N'D344Y7', N'Парфюмерная вода', N'шт.', 223, 10, N'Today Parfum', N'Летуаль', N'Женский парфюм', 5, 16, N'Парфюмерная вода Today Parfum Prestige №6 Eclat, 17 мл', N'D344Y7.jpg')
+GO
+INSERT [dbo].[Products] ([ProductID], [ProductАrticle], [ProductName], [ProductUnitChange], [ProductCost], [ProductMaxSale], [ProductManufacturer], [ProductProvider], [ProductCategory], [ProductSale], [ProductCount], [ProductDescription], [ProductImage]) VALUES (8, N'V324R5', N'Парфюмерная вода', N'шт.', 519, 5, N'Parfums Constantine', N'Летуаль', N'Женский парфюм', 3, 5, N'Парфюмерная вода Parfums Constantine Mademoiselle 7, 50 мл', N'V324R5.jpg')
+GO
+INSERT [dbo].[Products] ([ProductID], [ProductАrticle], [ProductName], [ProductUnitChange], [ProductCost], [ProductMaxSale], [ProductManufacturer], [ProductProvider], [ProductCategory], [ProductSale], [ProductCount], [ProductDescription], [ProductImage]) VALUES (9, N'E245R5', N'Туалетная вода', N'шт.', 1000, 15, N'Dilis Parfum', N'Рив Гош', N'Женский парфюм', 5, 2, N'Туалетная вода Dilis Parfum Mila, 100 мл', N'E245R5.jpg')
+GO
+INSERT [dbo].[Products] ([ProductID], [ProductАrticle], [ProductName], [ProductUnitChange], [ProductCost], [ProductMaxSale], [ProductManufacturer], [ProductProvider], [ProductCategory], [ProductSale], [ProductCount], [ProductDescription], [ProductImage]) VALUES (10, N'D378D3', N'Туалетная вода', N'шт.', 1500, 10, N'Dilis Parfum', N'Летуаль', N'Женский парфюм', 3, 16, N'Духи Dilis Parfum Classic Collection №18, 30 мл', N'D378D3.jpg')
+GO
+INSERT [dbo].[Products] ([ProductID], [ProductАrticle], [ProductName], [ProductUnitChange], [ProductCost], [ProductMaxSale], [ProductManufacturer], [ProductProvider], [ProductCategory], [ProductSale], [ProductCount], [ProductDescription], [ProductImage]) VALUES (11, N'C323R4', N'Парфюмерная вода', N'шт.', 4100, 25, N'TRUSSARDI', N'Летуаль', N'Мужской парфюм', 4, 8, N'Парфюмерная вода TRUSSARDI Donna Trussardi (2011), 50 мл', N'')
+GO
+INSERT [dbo].[Products] ([ProductID], [ProductАrticle], [ProductName], [ProductUnitChange], [ProductCost], [ProductMaxSale], [ProductManufacturer], [ProductProvider], [ProductCategory], [ProductSale], [ProductCount], [ProductDescription], [ProductImage]) VALUES (12, N'H732R5', N'Туалетная вода', N'шт.', 500, 15, N'Paris Line', N'Рив Гош', N'Женский парфюм', 5, 7, N'Туалетная вода Paris Line Parfums Cosa Nostra, 100 мл', N'')
+GO
+INSERT [dbo].[Products] ([ProductID], [ProductАrticle], [ProductName], [ProductUnitChange], [ProductCost], [ProductMaxSale], [ProductManufacturer], [ProductProvider], [ProductCategory], [ProductSale], [ProductCount], [ProductDescription], [ProductImage]) VALUES (13, N'R464G6', N'Духи', N'шт.', 290, 5, N'Dilis Parfum', N'Летуаль', N'Женский парфюм', 2, 11, N'Духи Dilis Parfum Ночная Фиалка, 9.5 мл', N'')
+GO
+INSERT [dbo].[Products] ([ProductID], [ProductАrticle], [ProductName], [ProductUnitChange], [ProductCost], [ProductMaxSale], [ProductManufacturer], [ProductProvider], [ProductCategory], [ProductSale], [ProductCount], [ProductDescription], [ProductImage]) VALUES (14, N'S346H6', N'Туалетная вода', N'шт.', 1000, 10, N'Dilis Parfum', N'Летуаль', N'Мужской парфюм', 4, 12, N'Туалетная вода Dilis Parfum Steelman Zone, 100 мл', N'')
+GO
+INSERT [dbo].[Products] ([ProductID], [ProductАrticle], [ProductName], [ProductUnitChange], [ProductCost], [ProductMaxSale], [ProductManufacturer], [ProductProvider], [ProductCategory], [ProductSale], [ProductCount], [ProductDescription], [ProductImage]) VALUES (15, N'K535G6', N'Парфюмерная вода', N'шт.', 1200, 15, N'Yves de Sistelle', N'Рив Гош', N'Женский парфюм', 2, 5, N'Парфюмерная вода Yves de Sistelle Incidence pour Femme, 65 мл', N'')
+GO
+INSERT [dbo].[Products] ([ProductID], [ProductАrticle], [ProductName], [ProductUnitChange], [ProductCost], [ProductMaxSale], [ProductManufacturer], [ProductProvider], [ProductCategory], [ProductSale], [ProductCount], [ProductDescription], [ProductImage]) VALUES (16, N'G532R5', N'Парфюмерная вода', N'шт.', 640, 10, N'Parfums Constantine', N'Летуаль', N'Мужской парфюм', 3, 16, N'Парфюмерная вода Parfums Constantine New York Perfume Six, 50 мл', N'')
+GO
+INSERT [dbo].[Products] ([ProductID], [ProductАrticle], [ProductName], [ProductUnitChange], [ProductCost], [ProductMaxSale], [ProductManufacturer], [ProductProvider], [ProductCategory], [ProductSale], [ProductCount], [ProductDescription], [ProductImage]) VALUES (17, N'K742T5', N'Туалетная вода', N'шт.', 900, 15, N'Dilis Parfum', N'Летуаль', N'Мужской парфюм', 4, 6, N'Туалетная вода Dilis Parfum Cool&Grey, 100 мл', N'')
+GO
+INSERT [dbo].[Products] ([ProductID], [ProductАrticle], [ProductName], [ProductUnitChange], [ProductCost], [ProductMaxSale], [ProductManufacturer], [ProductProvider], [ProductCategory], [ProductSale], [ProductCount], [ProductDescription], [ProductImage]) VALUES (18, N'R563E3', N'Туалетная вода', N'шт.', 418, 5, N'Today Parfum', N'Летуаль', N'Мужской парфюм', 4, 9, N'Туалетная вода Today Parfum G-Club Millioner, 100 мл', N'')
+GO
+INSERT [dbo].[Products] ([ProductID], [ProductАrticle], [ProductName], [ProductUnitChange], [ProductCost], [ProductMaxSale], [ProductManufacturer], [ProductProvider], [ProductCategory], [ProductSale], [ProductCount], [ProductDescription], [ProductImage]) VALUES (19, N'E573G6', N'Духи', N'шт.', 1087, 15, N'Dilis Parfum', N'Рив Гош', N'Женский парфюм', 5, 13, N'Духи Dilis Parfum Classic Collection №34, 30 мл', N'')
+GO
+INSERT [dbo].[Products] ([ProductID], [ProductАrticle], [ProductName], [ProductUnitChange], [ProductCost], [ProductMaxSale], [ProductManufacturer], [ProductProvider], [ProductCategory], [ProductSale], [ProductCount], [ProductDescription], [ProductImage]) VALUES (20, N'H647R5', N'Туалетная вода', N'шт.', 555, 10, N'Parfums Constantine', N'Рив Гош', N'Женский парфюм', 4, 6, N'Туалетная вода Parfums Constantine Gentleman №3, 100 мл', N'')
+GO
+INSERT [dbo].[Products] ([ProductID], [ProductАrticle], [ProductName], [ProductUnitChange], [ProductCost], [ProductMaxSale], [ProductManufacturer], [ProductProvider], [ProductCategory], [ProductSale], [ProductCount], [ProductDescription], [ProductImage]) VALUES (21, N'F344S4', N'Туалетная вода', N'шт.', 546, 5, N'Today Parfum', N'Рив Гош', N'Женский парфюм', 2, 9, N'Туалетная вода Today Parfum Cola Cherry, 50 мл', N'')
+GO
+INSERT [dbo].[Products] ([ProductID], [ProductАrticle], [ProductName], [ProductUnitChange], [ProductCost], [ProductMaxSale], [ProductManufacturer], [ProductProvider], [ProductCategory], [ProductSale], [ProductCount], [ProductDescription], [ProductImage]) VALUES (22, N'L533E4', N'Туалетная вода', N'шт.', 3900, 15, N'HUGO BOSS', N'Рив Гош', N'Мужской парфюм', 4, 15, N'Туалетная вода HUGO BOSS Boss Bottled, 50 мл', N'')
+GO
+INSERT [dbo].[Products] ([ProductID], [ProductАrticle], [ProductName], [ProductUnitChange], [ProductCost], [ProductMaxSale], [ProductManufacturer], [ProductProvider], [ProductCategory], [ProductSale], [ProductCount], [ProductDescription], [ProductImage]) VALUES (23, N'D526R4', N'Парфюмерная вода', N'шт.', 3600, 10, N'DOLCE & GABBANA', N'Летуаль', N'Женский парфюм', 3, 6, N'Парфюмерная вода DOLCE & GABBANA Dolce&Gabbana pour', N'')
+GO
+INSERT [dbo].[Products] ([ProductID], [ProductАrticle], [ProductName], [ProductUnitChange], [ProductCost], [ProductMaxSale], [ProductManufacturer], [ProductProvider], [ProductCategory], [ProductSale], [ProductCount], [ProductDescription], [ProductImage]) VALUES (24, N'S753T5', N'Парфюмерная вода', N'шт.', 5200, 5, N'DOLCE & GABBANA', N'Летуаль', N'Женский парфюм', 4, 3, N'Парфюмерная вода DOLCE & GABBANA Dolce Shine, 75 мл', N'')
+GO
+INSERT [dbo].[Products] ([ProductID], [ProductАrticle], [ProductName], [ProductUnitChange], [ProductCost], [ProductMaxSale], [ProductManufacturer], [ProductProvider], [ProductCategory], [ProductSale], [ProductCount], [ProductDescription], [ProductImage]) VALUES (25, N'D634D4', N'Туалетная вода', N'шт.', 367, 15, N'Paris Line', N'Рив Гош', N'Мужской парфюм', 2, 14, N'Туалетная вода Paris Line Parfums Dollar Diamond, 100 мл', N'')
+GO
+INSERT [dbo].[Products] ([ProductID], [ProductАrticle], [ProductName], [ProductUnitChange], [ProductCost], [ProductMaxSale], [ProductManufacturer], [ProductProvider], [ProductCategory], [ProductSale], [ProductCount], [ProductDescription], [ProductImage]) VALUES (26, N'V472S3', N'Парфюмерная вода', N'шт.', 2640, 30, N'LACOSTE', N'Рив Гош', N'Мужской парфюм', 4, 7, N'Парфюмерная вода LACOSTE Lacoste pour Femme, 30 мл', N'')
+GO
+INSERT [dbo].[Products] ([ProductID], [ProductАrticle], [ProductName], [ProductUnitChange], [ProductCost], [ProductMaxSale], [ProductManufacturer], [ProductProvider], [ProductCategory], [ProductSale], [ProductCount], [ProductDescription], [ProductImage]) VALUES (27, N'A436H7', N'Туалетная вода', N'шт.', 1000, 15, N'Dilis Parfum', N'Летуаль', N'Мужской парфюм', 4, 12, N'Туалетная вода Dilis Parfum Aqua Cool, 100 мл', N'')
+GO
+INSERT [dbo].[Products] ([ProductID], [ProductАrticle], [ProductName], [ProductUnitChange], [ProductCost], [ProductMaxSale], [ProductManufacturer], [ProductProvider], [ProductCategory], [ProductSale], [ProductCount], [ProductDescription], [ProductImage]) VALUES (28, N'O875F6', N'Парфюмерная вода', N'шт.', 600, 10, N'Dilis Parfum', N'Рив Гош', N'Мужской парфюм', 2, 5, N'Dilis Parfum Мужской Walker Breeze', N'')
+GO
+INSERT [dbo].[Products] ([ProductID], [ProductАrticle], [ProductName], [ProductUnitChange], [ProductCost], [ProductMaxSale], [ProductManufacturer], [ProductProvider], [ProductCategory], [ProductSale], [ProductCount], [ProductDescription], [ProductImage]) VALUES (29, N'E479G6', N'Туалетная вода', N'шт.', 6100, 25, N'HUGO BOSS', N'Рив Гош', N'Мужской парфюм', 5, 3, N'Туалетная вода HUGO BOSS Boss Bottled, 100 мл', N'')
+GO
+INSERT [dbo].[Products] ([ProductID], [ProductАrticle], [ProductName], [ProductUnitChange], [ProductCost], [ProductMaxSale], [ProductManufacturer], [ProductProvider], [ProductCategory], [ProductSale], [ProductCount], [ProductDescription], [ProductImage]) VALUES (30, N'V493E3', N'Туалетная вода', N'шт.', 3200, 10, N'DOLCE & GABBANA', N'Летуаль', N'Женский парфюм', 2, 8, N'Туалетная вода DOLCE & GABBANA 3 L''Imperatrice, 50 мл', N'')
+GO
+SET IDENTITY_INSERT [dbo].[Products] OFF
+GO
+INSERT [dbo].[ProductsOrders] ([ProductID], [OrderId]) VALUES (1, 1)
+GO
+INSERT [dbo].[ProductsOrders] ([ProductID], [OrderId]) VALUES (2, 2)
+GO
+INSERT [dbo].[ProductsOrders] ([ProductID], [OrderId]) VALUES (3, 4)
+GO
+SET IDENTITY_INSERT [dbo].[Users] ON 
+GO
+INSERT [dbo].[Users] ([UserId], [UserRole], [UserFullName], [UserLogin], [UserPassword]) VALUES (1, N'Администратор', N'Федоров Глеб Михайлович', N'o@outlook.com', N'2L6KZG')
+GO
+INSERT [dbo].[Users] ([UserId], [UserRole], [UserFullName], [UserLogin], [UserPassword]) VALUES (2, N'Администратор', N'Семенова Софья Дмитриевна', N'hr6zdl@yandex.ru', N'uzWC67')
+GO
+INSERT [dbo].[Users] ([UserId], [UserRole], [UserFullName], [UserLogin], [UserPassword]) VALUES (3, N'Администратор', N'Васильев Егор Германович', N'kaft93x@outlook.com', N'8ntwUp')
+GO
+INSERT [dbo].[Users] ([UserId], [UserRole], [UserFullName], [UserLogin], [UserPassword]) VALUES (4, N'Менеджер', N'Смирнова Ирина Александровна', N'dcu@yandex.ru', N'YOyhfR')
+GO
+INSERT [dbo].[Users] ([UserId], [UserRole], [UserFullName], [UserLogin], [UserPassword]) VALUES (5, N'Менеджер', N'Петров Андрей Владимирович', N'19dn@outlook.com', N'RSbvHv')
+GO
+INSERT [dbo].[Users] ([UserId], [UserRole], [UserFullName], [UserLogin], [UserPassword]) VALUES (6, N'Менеджер', N'Егоров Максим Андреевич', N'pa5h@mail.ru', N'rwVDh9')
+GO
+INSERT [dbo].[Users] ([UserId], [UserRole], [UserFullName], [UserLogin], [UserPassword]) VALUES (7, N'Клиент', N'Никитин Артур Алексеевич', N'281av0@gmail.com', N'LdNyos')
+GO
+INSERT [dbo].[Users] ([UserId], [UserRole], [UserFullName], [UserLogin], [UserPassword]) VALUES (8, N'Клиент', N'Киселев Максим Сергеевич', N'8edmfh@outlook.com', N'gynQMT')
+GO
+INSERT [dbo].[Users] ([UserId], [UserRole], [UserFullName], [UserLogin], [UserPassword]) VALUES (9, N'Клиент', N'Борисов Тимур Егорович', N'sfn13i@mail.ru', N'AtnDjr')
+GO
+INSERT [dbo].[Users] ([UserId], [UserRole], [UserFullName], [UserLogin], [UserPassword]) VALUES (10, N'Клиент', N'Климов Арсений Тимурович', N'g0orc3x1@outlook.com', N'JlFRCZ')
+GO
+SET IDENTITY_INSERT [dbo].[Users] OFF
+GO
+ALTER TABLE [dbo].[Orders]  WITH CHECK ADD FOREIGN KEY([OrderPointDeliverytID])
+REFERENCES [dbo].[PointDelivery] ([PointDeliverytID])
+GO
+ALTER TABLE [dbo].[Orders]  WITH CHECK ADD FOREIGN KEY([OrderUserID])
+REFERENCES [dbo].[Users] ([UserId])
+GO
+ALTER TABLE [dbo].[ProductsOrders]  WITH CHECK ADD FOREIGN KEY([OrderId])
+REFERENCES [dbo].[Orders] ([OrderId])
+GO
+ALTER TABLE [dbo].[ProductsOrders]  WITH CHECK ADD FOREIGN KEY([ProductID])
+REFERENCES [dbo].[Products] ([ProductID])
+GO
+USE [master]
+GO
+ALTER DATABASE [Perfumer] SET  READ_WRITE 
+GO
